@@ -22,12 +22,11 @@ class EasyUDPSocket {
   /// create an EasyUDPSocket and bind to random port.
   static Future<EasyUDPSocket> bindRandom(dynamic host,
       {bool reuseAddress = true, bool reusePort = false, int ttl = 1}) {
-    return bind(host, 0,
-        reuseAddress: reuseAddress, reusePort: reusePort, ttl: ttl);
+    return bind(host, 0, reuseAddress: reuseAddress, reusePort: reusePort, ttl: ttl);
   }
 
   /// receive a Datagram from the socket.
-  Future<Datagram> receive({int timeout, bool explode = false}) {
+  Future<Datagram> receive({int? timeout, bool explode = false}) {
     final completer = Completer<Datagram>.sync();
     if (timeout != null) {
       Future.delayed(Duration(milliseconds: timeout)).then((_) {
@@ -35,7 +34,8 @@ class EasyUDPSocket {
           if (explode) {
             completer.completeError('EasyUDP: Receive Timeout');
           } else {
-            completer.complete(null);
+            var result;
+            completer.complete(result);
           }
         }
       });
